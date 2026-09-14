@@ -2,7 +2,7 @@
 
 A .NET library for reading, extracting and converting comic book archives.
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/lzippilli/ComiX/blob/main/LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8.0%20%7C%2010.0-512BD4.svg)](https://dotnet.microsoft.com/)
 <!-- Add once the package is published:
 [![NuGet](https://img.shields.io/nuget/v/ComiX.svg)](https://www.nuget.org/packages/ComiX)
@@ -331,4 +331,4 @@ dotnet test
 
 ## License
 
-Released under the [MIT License](LICENSE).
+Released under the [MIT License](https://github.com/lzippilli/ComiX/blob/main/LICENSE).
