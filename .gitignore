@@ -1,0 +1,67 @@
+# Build output
+bin/
+obj/
+artifacts/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# The committed test fixtures are the deliberate exception: RAR and 7-Zip archives cannot be
+# produced from .NET, so they ship as sources rather than being generated.
+!tests/ComiX.Tests/Fixtures/Assets/*.cbr
+!tests/ComiX.Tests/Fixtures/Assets/*.cb7
+
+# Packages
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# Test and benchmark results
+TestResults/
+BenchmarkDotNet.Artifacts/
+*.trx
+*.coverage
+*.coverlet.xml
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# IDE and editor state
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userprefs
+*.DotSettings.user
+*.swp
+*~
+
+# MSBuild and tooling logs
+*.binlog
+*.log
+msbuild.wrn
+msbuild.err
+
+# Operating system noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Internal material, kept locally and excluded from the published repository
+docs/
+samples/
+benchmarks/
+
+# Local-only files. ComiX.Local.slnx additionally references the internal projects above; the
+# published solution, ComiX.slnx, contains only the library and its tests.
+*.Local.slnx
+*.local.*
+scratch/
+tmp/

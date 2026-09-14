@@ -1,0 +1,6 @@
+[*.cs]
+# Test names read as sentences on purpose.
+dotnet_diagnostic.CA1707.severity = none
+
+# Tests pass their own tokens where cancellation is what is under test; elsewhere the default is fine.
+dotnet_diagnostic.xUnit1051.severity = none

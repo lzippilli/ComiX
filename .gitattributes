@@ -1,0 +1,16 @@
+# Normalise line endings in the repository; check out with platform-native endings.
+* text=auto
+
+*.cs text diff=csharp
+*.csproj text
+*.props text
+*.slnx text
+*.md text
+*.yml text
+*.json text
+
+# Test fixtures must never be modified by line-ending normalisation.
+*.cbr binary
+*.cb7 binary
+*.cbz binary
+*.cbt binary

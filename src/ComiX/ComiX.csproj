@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RootNamespace>ComiX</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <PackageId>ComiX</PackageId>
+    <Description>A modern .NET library for reading, extracting and converting comic book archives (CBZ, CBR, CB7, CBT) through a single, container-agnostic model.</Description>
+    <PackageTags>comic;cbz;cbr;cb7;cbt;comicinfo;archive</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Version>1.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SharpCompress" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" Visible="false" />
+    <InternalsVisibleTo Include="ComiX.Tests" />
+  </ItemGroup>
+
+</Project>
