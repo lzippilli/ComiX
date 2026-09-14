@@ -4,10 +4,8 @@ A .NET library for reading, extracting and converting comic book archives.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8.0%20%7C%2010.0-512BD4.svg)](https://dotnet.microsoft.com/)
-
-<!-- Add once the package is published and the repository has a remote:
+<!-- Add once the package is published:
 [![NuGet](https://img.shields.io/nuget/v/ComiX.svg)](https://www.nuget.org/packages/ComiX)
-[![Build](https://github.com/OWNER/ComiX/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/ComiX/actions/workflows/ci.yml)
 -->
 
 ComiX exposes a unified object model for comic archives that is independent of the underlying
