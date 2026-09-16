@@ -19,8 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     permissions:
-      contents: read
-      id-token: write
+      contents: write   # create the GitHub release and attach the package
+      packages: write   # publish to the GitHub Packages NuGet registry
+      id-token: write   # obtain the OIDC token exchanged for the nuget.org key
 
     steps:
       - uses: actions/checkout@v4
@@ -56,9 +57,33 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
 
-      - name: Push the package
+      - name: Push the package to nuget.org
         run: >
           dotnet nuget push artifacts/*.nupkg
           --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
           --source https://api.nuget.org/v3/index.json
           --skip-duplicate
+
+      # GitHub Packages mirrors the package under the repository's Packages panel. Its NuGet
+      # registry requires an authenticated feed even for public packages, so nuget.org remains the
+      # distribution channel for consumers.
+      - name: Push the package to GitHub Packages
+        run: >
+          dotnet nuget push artifacts/*.nupkg
+          --api-key ${{ secrets.GITHUB_TOKEN }}
+          --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+          --skip-duplicate
+
+      # A release per version tag, with generated notes and the package files attached. Versions
+      # carrying a pre-release suffix are marked as pre-releases.
+      - name: Create the GitHub release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          prerelease=""
+          case "$GITHUB_REF_NAME" in *-*) prerelease="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" artifacts/*.nupkg artifacts/*.snupkg \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes \
+            $prerelease
