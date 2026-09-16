@@ -42,6 +42,22 @@ jobs:
             exit 1
           fi
 
+      # The CHANGELOG section for the version becomes the release notes on GitHub and on nuget.org.
+      # A missing or empty section fails the job before anything is built or published.
+      - name: Extract the release notes from CHANGELOG.md
+        run: |
+          version=$(sed -n 's/.*<Version>\(.*\)<\/Version>.*/\1/p' src/ComiX/ComiX.csproj)
+          awk -v heading="## [$version]" '
+            /^## \[/ { if (found) exit; found = (index($0, heading) == 1); next }
+            found { print }
+          ' CHANGELOG.md | sed -e '1{/^$/d}' -e :a -e '/^\n*$/{$d;N;ba' -e '}' > release-notes.md
+          if [ ! -s release-notes.md ]; then
+            echo "::error::CHANGELOG.md has no section for version $version."
+            exit 1
+          fi
+          echo "Release notes for $version:"
+          cat release-notes.md
+
       - run: dotnet restore ComiX.slnx
 
       - run: dotnet build ComiX.slnx --no-restore --configuration Release
@@ -74,8 +90,8 @@ jobs:
           --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
           --skip-duplicate
 
-      # A release per version tag, with generated notes and the package files attached. Versions
-      # carrying a pre-release suffix are marked as pre-releases.
+      # A release per version tag, with the CHANGELOG section as its notes and the package files
+      # attached. Versions carrying a pre-release suffix are marked as pre-releases.
       - name: Create the GitHub release
         if: github.ref_type == 'tag'
         env:
@@ -85,5 +101,5 @@ jobs:
           case "$GITHUB_REF_NAME" in *-*) prerelease="--prerelease" ;; esac
           gh release create "$GITHUB_REF_NAME" artifacts/*.nupkg artifacts/*.snupkg \
             --title "$GITHUB_REF_NAME" \
-            --generate-notes \
+            --notes-file release-notes.md \
             $prerelease

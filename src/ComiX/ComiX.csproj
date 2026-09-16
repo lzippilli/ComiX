@@ -23,6 +23,12 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <!--
+      The publish workflow extracts the CHANGELOG section for the version into release-notes.md at
+      the repository root. When present it becomes the package's release notes on nuget.org.
+    -->
+    <ReleaseNotesFile>$(MSBuildThisFileDirectory)../../release-notes.md</ReleaseNotesFile>
+    <PackageReleaseNotes Condition="Exists('$(ReleaseNotesFile)')">$([System.IO.File]::ReadAllText('$(ReleaseNotesFile)'))</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
