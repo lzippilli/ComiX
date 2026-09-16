@@ -20,6 +20,7 @@ internal sealed class ComicContentReader
     private readonly IComicCache _cache;
     private readonly string _cacheScope;
     private readonly long _maxEntrySize;
+    private volatile bool _disposed;
 
     public ComicContentReader(IComicArchive archive, IComicCache cache, string cacheScope, long maxEntrySize)
     {
@@ -31,12 +32,16 @@ internal sealed class ComicContentReader
 
     public async Task<Stream> OpenAsync(ComicArchiveEntry entry, CancellationToken cancellationToken)
     {
+        ObjectDisposedException.ThrowIf(_disposed, typeof(ComicBook));
+
         var content = await ReadAllAsync(entry, cancellationToken).ConfigureAwait(false);
         return new MemoryStream(content, writable: false);
     }
 
     public async Task CopyToAsync(ComicArchiveEntry entry, Stream destination, CancellationToken cancellationToken)
     {
+        ObjectDisposedException.ThrowIf(_disposed, typeof(ComicBook));
+
         var cached = await _cache.TryGetAsync(_cacheScope, entry.Key, cancellationToken).ConfigureAwait(false);
         if (cached is not null)
         {
@@ -54,6 +59,8 @@ internal sealed class ComicContentReader
         bool overwrite,
         CancellationToken cancellationToken)
     {
+        ObjectDisposedException.ThrowIf(_disposed, typeof(ComicBook));
+
         var fullPath = Path.GetFullPath(destinationPath);
         var directory = Path.GetDirectoryName(fullPath);
         if (!string.IsNullOrEmpty(directory))
@@ -75,6 +82,9 @@ internal sealed class ComicContentReader
             await CopyToAsync(entry, destination, cancellationToken).ConfigureAwait(false);
         }
     }
+
+    /// <summary>Rejects further reads. Called by <see cref="ComicBook"/> on disposal.</summary>
+    public void MarkDisposed() => _disposed = true;
 
     private async Task<byte[]> ReadAllAsync(ComicArchiveEntry entry, CancellationToken cancellationToken)
     {

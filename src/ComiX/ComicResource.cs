@@ -34,10 +34,14 @@ public sealed class ComicResource
     /// Reads the resource and returns a seekable, read-only stream over its content. The stream is
     /// owned by the caller and remains valid after the originating <see cref="ComicBook"/> is disposed.
     /// </summary>
+    /// <exception cref="ComicArchiveException">The resource cannot be read, or exceeds the configured entry size limit.</exception>
+    /// <exception cref="ObjectDisposedException">The <see cref="ComicBook"/> has been disposed.</exception>
     public Task<Stream> OpenAsync(CancellationToken cancellationToken = default) =>
         _reader.OpenAsync(_entry, cancellationToken);
 
     /// <summary>Writes the resource's content to <paramref name="destination"/>, which is not disposed.</summary>
+    /// <exception cref="ComicArchiveException">The resource cannot be read, or exceeds the configured entry size limit.</exception>
+    /// <exception cref="ObjectDisposedException">The <see cref="ComicBook"/> has been disposed.</exception>
     public Task ExtractAsync(Stream destination, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(destination);
@@ -45,6 +49,8 @@ public sealed class ComicResource
     }
 
     /// <summary>Writes the resource's content to a file, creating any missing directories.</summary>
+    /// <exception cref="ComicArchiveException">The resource cannot be read, or exceeds the configured entry size limit.</exception>
+    /// <exception cref="ObjectDisposedException">The <see cref="ComicBook"/> has been disposed.</exception>
     public Task ExtractAsync(
         string destinationPath,
         bool overwrite = false,

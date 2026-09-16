@@ -265,10 +265,17 @@ Limits are enforced against the number of bytes read, not against the sizes decl
 
 ### Thread safety
 
-A `ComicBook` instance may be accessed concurrently. Content reads are serialised internally, and
-parallel archive I/O is not guaranteed. Disposing an instance while reads are in progress is not
-supported. Streams returned by `ComicPage.OpenAsync` and `ComicResource.OpenAsync` are independent of
-the instance that produced them and remain valid after it has been disposed.
+A `ComicBook` instance may be accessed concurrently. Content reads are serialised per instance for
+every container format, including those with random access, so concurrent reads are safe but are
+executed one at a time. Streams returned by `ComicPage.OpenAsync` and `ComicResource.OpenAsync` are
+independent of the instance that produced them and remain valid after it has been disposed.
+
+### Disposal
+
+Disposal lets the read in progress complete. `ComicBook.DisposeAsync` waits for that read before
+releasing the archive; `ComicBook.Dispose` returns immediately and the archive is released when the
+read finishes. Reads requested after either call, including reads already queued, throw
+`ObjectDisposedException`.
 
 ### Cancellation
 
@@ -310,6 +317,10 @@ if (!comic.Capabilities.HasFlag(ComicCapabilities.RandomAccess))
     // Sequential access is more efficient for this archive.
 }
 ```
+
+Caching is disabled by default, so every read of a page in a solid archive repeats that
+decompression, including reads of pages already visited. Applications that revisit pages, such as
+readers, should supply `ComicCache.InMemory` through `ComicOpenOptions.Cache`.
 
 ### Multi-volume archives
 

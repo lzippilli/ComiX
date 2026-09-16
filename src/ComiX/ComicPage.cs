@@ -81,6 +81,7 @@ public sealed class ComicPage
     /// <param name="cancellationToken">Cancels the operation.</param>
     /// <returns>A seekable, read-only stream over the page content.</returns>
     /// <exception cref="ComicArchiveException">The page cannot be read, or exceeds the configured entry size limit.</exception>
+    /// <exception cref="ObjectDisposedException">The <see cref="ComicBook"/> has been disposed.</exception>
     public Task<Stream> OpenAsync(CancellationToken cancellationToken = default) =>
         _reader.OpenAsync(_entry, cancellationToken);
 
@@ -88,6 +89,7 @@ public sealed class ComicPage
     /// <param name="destination">The target stream. It is not disposed.</param>
     /// <param name="cancellationToken">Cancels the operation.</param>
     /// <exception cref="ComicArchiveException">The page cannot be read, or exceeds the configured entry size limit.</exception>
+    /// <exception cref="ObjectDisposedException">The <see cref="ComicBook"/> has been disposed.</exception>
     public Task ExtractAsync(Stream destination, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(destination);
@@ -100,6 +102,7 @@ public sealed class ComicPage
     /// <param name="cancellationToken">Cancels the operation.</param>
     /// <exception cref="IOException">The file exists and <paramref name="overwrite"/> is <see langword="false"/>.</exception>
     /// <exception cref="ComicArchiveException">The page cannot be read, or exceeds the configured entry size limit.</exception>
+    /// <exception cref="ObjectDisposedException">The <see cref="ComicBook"/> has been disposed.</exception>
     public Task ExtractAsync(
         string destinationPath,
         bool overwrite = false,

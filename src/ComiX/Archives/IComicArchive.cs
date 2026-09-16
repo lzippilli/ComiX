@@ -4,7 +4,13 @@ namespace ComiX.Archives;
 /// A comic archive container: an entry list and a way to read one entry.
 /// Implementations must serialise concurrent calls to <see cref="CopyEntryToAsync"/>.
 /// </summary>
-internal interface IComicArchive : IDisposable
+/// <remarks>
+/// Disposal contract: the read in progress completes in either disposal mode, and reads requested
+/// after the call throw <see cref="ObjectDisposedException"/>. <see cref="IAsyncDisposable.DisposeAsync"/>
+/// waits for that read; <see cref="IDisposable.Dispose"/> returns immediately and resources are
+/// released when the read finishes.
+/// </remarks>
+internal interface IComicArchive : IDisposable, IAsyncDisposable
 {
     ComicContainerFormat Format { get; }
 

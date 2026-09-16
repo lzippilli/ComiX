@@ -13,8 +13,15 @@ namespace ComiX.Archives;
 /// random-access support and archive comments, both parameterised here.
 /// </summary>
 /// <remarks>
+/// <para>
 /// Reads are serialised on a semaphore because the archive and its stream are shared state.
 /// Serialisation is a property of this implementation, not of <see cref="IComicArchive"/>.
+/// </para>
+/// <para>
+/// The semaphore is never disposed. <see cref="SemaphoreSlim"/> holds no unmanaged resource unless
+/// its wait handle is requested, and disposing it would leave queued waiters pending indefinitely
+/// and make the release in the read path throw.
+/// </para>
 /// </remarks>
 internal sealed class SharpCompressComicArchive : IComicArchive
 {
@@ -22,7 +29,7 @@ internal sealed class SharpCompressComicArchive : IComicArchive
     private readonly Stream? _ownedStream;
     private readonly Dictionary<string, IArchiveEntry> _entriesByKey;
     private readonly SemaphoreSlim _gate = new(1, 1);
-    private bool _disposed;
+    private int _disposed;
 
     private SharpCompressComicArchive(
         IArchive archive,
@@ -126,12 +133,14 @@ internal sealed class SharpCompressComicArchive : IComicArchive
                 SupportsRandomAccessIn(archive));
     }
 
+    private bool IsDisposed => Volatile.Read(ref _disposed) == 1;
+
     public async ValueTask CopyEntryToAsync(
         ComicArchiveEntry entry,
         Stream destination,
         CancellationToken cancellationToken)
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        ObjectDisposedException.ThrowIf(IsDisposed, typeof(ComicBook));
 
         if (!_entriesByKey.TryGetValue(entry.Key, out var archiveEntry))
         {
@@ -141,25 +150,32 @@ internal sealed class SharpCompressComicArchive : IComicArchive
         await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
-            Stream source;
+            // Disposal may have started while this call was queued. Checked outside the wrapping
+            // block below so the exception reaches the caller as ObjectDisposedException.
+            ObjectDisposedException.ThrowIf(IsDisposed, typeof(ComicBook));
+
             try
             {
-                source = await archiveEntry.OpenEntryStreamAsync(cancellationToken).ConfigureAwait(false);
+                Stream source;
+                try
+                {
+                    source = await archiveEntry.OpenEntryStreamAsync(cancellationToken).ConfigureAwait(false);
+                }
+                catch (Exception ex) when (ex is not ComiXException and not OperationCanceledException)
+                {
+                    throw new ComicArchiveException($"Entry '{entry.Key}' could not be opened.", ex);
+                }
+
+                await using (source.ConfigureAwait(false))
+                {
+                    await source.CopyToAsync(destination, StreamCopy.BufferSize, cancellationToken)
+                        .ConfigureAwait(false);
+                }
             }
             catch (Exception ex) when (ex is not ComiXException and not OperationCanceledException)
             {
-                throw new ComicArchiveException($"Entry '{entry.Key}' could not be opened.", ex);
+                throw new ComicArchiveException($"Entry '{entry.Key}' could not be read.", ex);
             }
-
-            await using (source.ConfigureAwait(false))
-            {
-                await source.CopyToAsync(destination, StreamCopy.BufferSize, cancellationToken)
-                    .ConfigureAwait(false);
-            }
-        }
-        catch (Exception ex) when (ex is not ComiXException and not OperationCanceledException)
-        {
-            throw new ComicArchiveException($"Entry '{entry.Key}' could not be read.", ex);
         }
         finally
         {
@@ -167,17 +183,70 @@ internal sealed class SharpCompressComicArchive : IComicArchive
         }
     }
 
+    /// <summary>
+    /// Marks the archive disposed without waiting. Resources are released immediately when no read
+    /// is in progress; otherwise once that read completes.
+    /// </summary>
     public void Dispose()
     {
-        if (_disposed)
+        if (Interlocked.Exchange(ref _disposed, 1) == 1)
         {
             return;
         }
 
-        _disposed = true;
+        if (_gate.Wait(0))
+        {
+            try
+            {
+                ReleaseResources();
+            }
+            finally
+            {
+                _gate.Release();
+            }
+        }
+        else
+        {
+            _ = ReleaseWhenIdleAsync();
+        }
+    }
+
+    /// <summary>
+    /// Marks the archive disposed, so that no further read starts, then waits for the read in
+    /// progress to finish before releasing resources.
+    /// </summary>
+    public async ValueTask DisposeAsync()
+    {
+        if (Interlocked.Exchange(ref _disposed, 1) == 1)
+        {
+            return;
+        }
+
+        await ReleaseWhenIdleAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Acquires the gate, which completes only after the read in progress has finished, and
+    /// releases resources under it. Queued reads that acquire the gate first observe the disposed
+    /// flag and throw without touching the archive.
+    /// </summary>
+    private async Task ReleaseWhenIdleAsync()
+    {
+        await _gate.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            ReleaseResources();
+        }
+        finally
+        {
+            _gate.Release();
+        }
+    }
+
+    private void ReleaseResources()
+    {
         _archive.Dispose();
         _ownedStream?.Dispose();
-        _gate.Dispose();
     }
 
     /// <summary>

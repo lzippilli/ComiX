@@ -22,8 +22,10 @@ namespace ComiX;
 /// </example>
 /// <remarks>
 /// Opening reads the container index and resolves metadata; page content is accessed lazily.
-/// Instances may be accessed concurrently: content reads are serialised internally, parallel archive
-/// I/O is not guaranteed, and disposal while reads are in progress is not supported.
+/// Instances may be accessed concurrently: content reads are serialised internally and parallel
+/// archive I/O is not guaranteed. Disposal lets the read in progress complete —
+/// <see cref="DisposeAsync"/> waits for it, <see cref="Dispose"/> does not — and reads requested
+/// after either call throw <see cref="ObjectDisposedException"/>.
 /// </remarks>
 public sealed class ComicBook : IDisposable, IAsyncDisposable
 {
@@ -255,9 +257,14 @@ public sealed class ComicBook : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
-    /// Releases the archive and, when owned by this instance, the underlying stream. Streams already
-    /// returned by <see cref="ComicPage.OpenAsync"/> remain valid.
+    /// Marks the comic disposed and returns immediately. The archive and, when owned by this
+    /// instance, the underlying stream are released once the read in progress, if any, completes.
     /// </summary>
+    /// <remarks>
+    /// Reads requested afterwards throw <see cref="ObjectDisposedException"/>. Streams already
+    /// returned by <see cref="ComicPage.OpenAsync"/> remain valid. Use <see cref="DisposeAsync"/> to
+    /// observe the release.
+    /// </remarks>
     public void Dispose()
     {
         if (_disposed)
@@ -266,14 +273,29 @@ public sealed class ComicBook : IDisposable, IAsyncDisposable
         }
 
         _disposed = true;
+        _reader.MarkDisposed();
         _archive.Dispose();
     }
 
-    /// <inheritdoc />
-    public ValueTask DisposeAsync()
+    /// <summary>
+    /// Releases the archive and, when owned by this instance, the underlying stream, after the read
+    /// in progress has finished.
+    /// </summary>
+    /// <remarks>
+    /// Reads requested after this call, including reads already queued, throw
+    /// <see cref="ObjectDisposedException"/>. Streams already returned by
+    /// <see cref="ComicPage.OpenAsync"/> remain valid.
+    /// </remarks>
+    public async ValueTask DisposeAsync()
     {
-        Dispose();
-        return ValueTask.CompletedTask;
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+        _reader.MarkDisposed();
+        await _archive.DisposeAsync().ConfigureAwait(false);
     }
 
     private static async Task<ComicBook> OpenCoreAsync(
