@@ -1,0 +1,64 @@
+name: publish
+
+# Publishes the package to nuget.org through Trusted Publishing. No long-lived API key is stored:
+# the job obtains a one-hour key by OIDC, which nuget.org issues only to this workflow file in this
+# repository, as registered in the trusted publishing policy.
+#
+# Triggered by pushing a version tag whose name matches the package version, for example
+# v1.0.0-preview.1. The tag and the <Version> in ComiX.csproj must agree, or the job fails before
+# anything is published.
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Verify that the tag matches the package version
+        if: github.ref_type == 'tag'
+        run: |
+          version=$(sed -n 's/.*<Version>\(.*\)<\/Version>.*/\1/p' src/ComiX/ComiX.csproj)
+          tag="${GITHUB_REF_NAME#v}"
+          if [ "$version" != "$tag" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package version $version."
+            exit 1
+          fi
+
+      - run: dotnet restore ComiX.slnx
+
+      - run: dotnet build ComiX.slnx --no-restore --configuration Release
+
+      - run: dotnet test ComiX.slnx --no-build --configuration Release
+
+      - run: dotnet pack src/ComiX/ComiX.csproj --no-build --configuration Release --output artifacts -p:ContinuousIntegrationBuild=true
+
+      # Requested immediately before the push: the temporary key is valid for one hour.
+      - name: Obtain a temporary NuGet API key
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push the package
+        run: >
+          dotnet nuget push artifacts/*.nupkg
+          --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
