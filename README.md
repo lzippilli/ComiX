@@ -4,9 +4,7 @@ A .NET library for reading, extracting and converting comic book archives.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/lzippilli/ComiX/blob/main/LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8.0%20%7C%2010.0-512BD4.svg)](https://dotnet.microsoft.com/)
-<!-- Add once the package is published:
-[![NuGet](https://img.shields.io/nuget/v/ComiX.svg)](https://www.nuget.org/packages/ComiX)
--->
+[![NuGet](https://img.shields.io/nuget/vpre/ComiX.svg)](https://www.nuget.org/packages/ComiX)
 
 ComiX exposes a unified object model for comic archives that is independent of the underlying
 container format and of the metadata standard the archive was tagged with. It provides archive access,
@@ -31,8 +29,15 @@ await using var page = await comic.Pages[0].OpenAsync();
 | CB7 (7-Zip) | ✔ | ✔ | ✔ |
 | CBT (TAR) | ✔ | ✔ | ✔ |
 
-Supported metadata standards: `ComicInfo.xml`, `MetronInfo.xml`, CoMet and ComicBookInfo. Writing
-metadata into an existing archive is not supported.
+| Metadata standard | Location | Reading | Writing | Per-page information |
+| :--- | :--- | :---: | :---: | :---: |
+| `ComicInfo.xml` | archive entry | ✔ | ✘ | ✔ |
+| `MetronInfo.xml` | archive entry | ✔ | ✘ | ✘ |
+| CoMet | `comet.xml` archive entry | ✔ | ✘ | ✘ |
+| ComicBookInfo | archive comment (ZIP and RAR only) | ✔ | ✘ | ✘ |
+
+Writing metadata into an existing archive is not supported yet. Conversion copies the original metadata
+entries and the archive comment verbatim.
 
 Supported page formats, identified by file extension: JPEG, PNG, GIF, WebP, BMP, TIFF and AVIF.
 
