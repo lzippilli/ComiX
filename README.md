@@ -31,8 +31,8 @@ await using var page = await comic.Pages[0].OpenAsync();
 | CB7 (7-Zip) | ✔ | ✔ | ✔ |
 | CBT (TAR) | ✔ | ✔ | ✔ |
 
-Supported metadata standards: `ComicInfo.xml`, CoMet and ComicBookInfo. Writing metadata into an
-existing archive is not supported.
+Supported metadata standards: `ComicInfo.xml`, `MetronInfo.xml`, CoMet and ComicBookInfo. Writing
+metadata into an existing archive is not supported.
 
 Supported page formats, identified by file extension: JPEG, PNG, GIF, WebP, BMP, TIFF and AVIF.
 
@@ -134,8 +134,9 @@ var writers = metadata.Credits.Where(credit => credit.Role == ComicCreditRole.Wr
 ### Metadata resolution
 
 An archive may contain more than one metadata source. Sources are resolved in the following
-precedence order: `ComicInfo.xml`, CoMet, then ComicBookInfo. The first source that parses
-successfully supplies the canonical values; the remaining sources are reported but not merged.
+precedence order: `ComicInfo.xml`, `MetronInfo.xml`, CoMet, then ComicBookInfo. The first source
+that parses successfully supplies the canonical values; the remaining sources are reported but not
+merged.
 
 ```csharp
 Console.WriteLine(metadata.Standard);                 // ComicInfo
@@ -314,7 +315,7 @@ the remaining volumes is unavailable. `ComicValidator` reports this condition as
 
 - Metadata cannot be written into an existing archive.
 - CBZ is the only supported export target.
-- MetronInfo, EPUB and PDF are not supported as metadata sources or containers.
+- EPUB and PDF are not supported as containers.
 - Image dimensions and spread information are limited to what the source metadata declares.
 - Encrypted archives require a password supplied through `ComicOpenOptions.Password`; encrypted
   entries are otherwise reported by detection and validation and cannot be read.

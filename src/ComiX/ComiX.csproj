@@ -13,7 +13,7 @@
     <Authors>Lorenzo Zippilli</Authors>
     <Copyright>Copyright (c) 2026 Lorenzo Zippilli</Copyright>
     <Description>A .NET library for reading, extracting and converting comic book archives (CBZ, CBR, CB7, CBT) through a container-agnostic object model.</Description>
-    <PackageTags>comic;cbz;cbr;cb7;cbt;comicinfo;comet;archive</PackageTags>
+    <PackageTags>comic;cbz;cbr;cb7;cbt;comicinfo;metroninfo;comet;archive</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/lzippilli/ComiX</PackageProjectUrl>

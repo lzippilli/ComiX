@@ -24,11 +24,13 @@ internal static class ArchiveContent
 {
     private const string ComicInfoFileName = "ComicInfo.xml";
     private const string CoMetFileName = "comet.xml";
+    private const string MetronInfoFileName = "MetronInfo.xml";
 
     /// <summary>The file names ComiX recognises as metadata rather than as content.</summary>
     public static bool IsMetadataFile(ComicArchiveEntry entry) =>
         entry.FileName.Equals(ComicInfoFileName, StringComparison.OrdinalIgnoreCase)
-        || entry.FileName.Equals(CoMetFileName, StringComparison.OrdinalIgnoreCase);
+        || entry.FileName.Equals(CoMetFileName, StringComparison.OrdinalIgnoreCase)
+        || entry.FileName.Equals(MetronInfoFileName, StringComparison.OrdinalIgnoreCase);
 
     public static bool IsJunk(ComicArchiveEntry entry)
     {
@@ -80,6 +82,10 @@ internal static class ArchiveContent
     /// </summary>
     public static ComicArchiveEntry? FindCoMet(IEnumerable<ComicArchiveEntry> entries) =>
         FindByName(entries, CoMetFileName);
+
+    /// <summary>Finds the archive's <c>MetronInfo.xml</c>, preferring one at the archive root.</summary>
+    public static ComicArchiveEntry? FindMetronInfo(IEnumerable<ComicArchiveEntry> entries) =>
+        FindByName(entries, MetronInfoFileName);
 
     private static ComicArchiveEntry? FindByName(IEnumerable<ComicArchiveEntry> entries, string fileName)
     {

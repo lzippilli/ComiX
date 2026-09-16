@@ -16,6 +16,9 @@ public enum ComicMetadataStandard
 
     /// <summary>ComicBookInfo (Comic Book Lover), stored as a JSON archive comment.</summary>
     ComicBookInfo = 3,
+
+    /// <summary>The Metron Project's <c>MetronInfo.xml</c>.</summary>
+    MetronInfo = 4,
 }
 
 /// <summary>

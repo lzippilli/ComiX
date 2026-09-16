@@ -1,5 +1,5 @@
 using System.Globalization;
-using System.Xml;
+using ComiX.Internal;
 using System.Xml.Linq;
 
 namespace ComiX.Metadata;
@@ -52,35 +52,7 @@ internal static class ComicInfoReader
     /// <exception cref="ComicMetadataException">The content is not well-formed XML, or is not ComicInfo.</exception>
     public static ComicMetadataDocument Read(Stream stream, string location)
     {
-        XDocument document;
-        try
-        {
-            var settings = new XmlReaderSettings
-            {
-                DtdProcessing = DtdProcessing.Prohibit,
-                XmlResolver = null,
-                IgnoreComments = true,
-                IgnoreProcessingInstructions = true,
-                IgnoreWhitespace = true,
-                CloseInput = false,
-            };
-
-            using var reader = XmlReader.Create(stream, settings);
-            document = XDocument.Load(reader);
-        }
-        catch (Exception ex) when (ex is XmlException or InvalidOperationException)
-        {
-            throw new ComicMetadataException("ComicInfo.xml is not well-formed XML.", ex);
-        }
-
-        var root = document.Root
-            ?? throw new ComicMetadataException("ComicInfo.xml is empty.");
-
-        if (!root.Name.LocalName.Equals("ComicInfo", StringComparison.OrdinalIgnoreCase))
-        {
-            throw new ComicMetadataException(
-                $"Expected a ComicInfo root element but found '{root.Name.LocalName}'.");
-        }
+        var root = SecureXml.LoadRoot(stream, "ComicInfo.xml", "ComicInfo");
 
         var credits = new List<ComicCredit>();
         var identifiers = new List<ComicIdentifier>();

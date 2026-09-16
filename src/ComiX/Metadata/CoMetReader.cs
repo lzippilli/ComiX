@@ -1,6 +1,5 @@
 using System.Globalization;
-using System.Xml;
-using System.Xml.Linq;
+using ComiX.Internal;
 
 namespace ComiX.Metadata;
 
@@ -44,35 +43,7 @@ internal static class CoMetReader
     /// <exception cref="ComicMetadataException">The content is not well-formed XML, or is not CoMet.</exception>
     public static ComicMetadataDocument Read(Stream stream, string location)
     {
-        XDocument document;
-        try
-        {
-            var settings = new XmlReaderSettings
-            {
-                DtdProcessing = DtdProcessing.Prohibit,
-                XmlResolver = null,
-                IgnoreComments = true,
-                IgnoreProcessingInstructions = true,
-                IgnoreWhitespace = true,
-                CloseInput = false,
-            };
-
-            using var reader = XmlReader.Create(stream, settings);
-            document = XDocument.Load(reader);
-        }
-        catch (Exception ex) when (ex is XmlException or InvalidOperationException)
-        {
-            throw new ComicMetadataException("The CoMet document is not well-formed XML.", ex);
-        }
-
-        var root = document.Root
-            ?? throw new ComicMetadataException("The CoMet document is empty.");
-
-        if (!root.Name.LocalName.Equals("comet", StringComparison.OrdinalIgnoreCase))
-        {
-            throw new ComicMetadataException(
-                $"Expected a comet root element but found '{root.Name.LocalName}'.");
-        }
+        var root = SecureXml.LoadRoot(stream, "The CoMet document", "comet");
 
         var credits = new List<ComicCredit>();
         var genres = new List<string>();

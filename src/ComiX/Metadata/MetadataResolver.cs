@@ -7,10 +7,10 @@ namespace ComiX.Metadata;
 /// Finds every metadata source in an archive and decides which one supplies the canonical values.
 /// </summary>
 /// <remarks>
-/// Precedence is <c>ComicInfo.xml</c>, CoMet, then ComicBookInfo. The first source that parses
-/// supplies all canonical values; fields are not merged across standards. Remaining sources are
-/// listed in <see cref="ComicMetadata.Sources"/>. Precedence is defined only here, so it can become
-/// a configurable policy without changes to <see cref="ComicBook"/>.
+/// Precedence is <c>ComicInfo.xml</c>, <c>MetronInfo.xml</c>, CoMet, then ComicBookInfo. The first
+/// source that parses supplies all canonical values; fields are not merged across standards.
+/// Remaining sources are listed in <see cref="ComicMetadata.Sources"/>. Precedence is defined only
+/// here, so it can become a configurable policy without changes to <see cref="ComicBook"/>.
 /// </remarks>
 internal static class MetadataResolver
 {
@@ -75,11 +75,16 @@ internal static class MetadataResolver
     /// </summary>
     public static List<MetadataCandidate> FindCandidates(IComicArchive archive)
     {
-        var candidates = new List<MetadataCandidate>(3);
+        var candidates = new List<MetadataCandidate>(4);
 
         if (ArchiveContent.FindComicInfo(archive.Entries) is { } comicInfo)
         {
             candidates.Add(new MetadataCandidate(ComicMetadataStandard.ComicInfo, comicInfo.Key, comicInfo));
+        }
+
+        if (ArchiveContent.FindMetronInfo(archive.Entries) is { } metronInfo)
+        {
+            candidates.Add(new MetadataCandidate(ComicMetadataStandard.MetronInfo, metronInfo.Key, metronInfo));
         }
 
         if (ArchiveContent.FindCoMet(archive.Entries) is { } coMet)
@@ -115,6 +120,7 @@ internal static class MetadataResolver
             return candidate.Standard switch
             {
                 ComicMetadataStandard.ComicInfo => ComicInfoReader.Read(content, candidate.Location),
+                ComicMetadataStandard.MetronInfo => MetronInfoReader.Read(content, candidate.Location),
                 ComicMetadataStandard.CoMet => CoMetReader.Read(content, candidate.Location),
                 _ => throw new ComicMetadataException($"No reader for {candidate.Standard}."),
             };
