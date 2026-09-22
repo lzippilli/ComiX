@@ -1,3 +1,4 @@
+using System.Text;
 using SharpCompress.Common;
 using SharpCompress.Writers;
 using SharpCompress.Writers.Zip;
@@ -21,10 +22,18 @@ internal sealed class ComicFixture : IDisposable
     public string PathFor(string fileName) => Path.Combine(_root, fileName);
 
     /// <summary>Writes a ZIP-based comic containing the given entries and returns its path.</summary>
+    /// <param name="fileName">The archive file name within the fixture directory.</param>
+    /// <param name="entries">The entries to write.</param>
+    /// <param name="archiveComment">The archive-level comment, where the test needs one.</param>
+    /// <param name="entryNameEncoding">
+    /// The encoding for entry names. When supplied and not UTF-8, the archive stores the names in
+    /// that encoding without declaring it, which is how legacy writers produce them.
+    /// </param>
     public string CreateZip(
         string fileName,
         IEnumerable<(string Name, byte[] Content)> entries,
-        string? archiveComment = null)
+        string? archiveComment = null,
+        Encoding? entryNameEncoding = null)
     {
         var path = PathFor(fileName);
         using var file = File.Create(path);
@@ -33,6 +42,11 @@ internal sealed class ComicFixture : IDisposable
             LeaveStreamOpen = true,
             ArchiveComment = archiveComment,
         };
+
+        if (entryNameEncoding is not null)
+        {
+            options.ArchiveEncoding.Default = entryNameEncoding;
+        }
 
         using (var writer = WriterFactory.Open(file, ArchiveType.Zip, options))
         {

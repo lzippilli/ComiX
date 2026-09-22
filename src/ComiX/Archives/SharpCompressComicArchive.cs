@@ -93,14 +93,20 @@ internal sealed class SharpCompressComicArchive : IComicArchive
     /// <param name="stream">The archive content. Must be seekable.</param>
     /// <param name="format">The format the content was detected as.</param>
     /// <param name="ownsStream">Whether disposing this archive should dispose <paramref name="stream"/>.</param>
-    /// <param name="password">The password for encrypted archives, when one is known.</param>
+    /// <param name="archiveOptions">The password and entry name encoding to read the archive with.</param>
     public static SharpCompressComicArchive Open(
         Stream stream,
         ComicContainerFormat format,
         bool ownsStream,
-        string? password)
+        ComicArchiveOptions archiveOptions)
     {
-        var options = new ReaderOptions { LeaveStreamOpen = true, Password = password };
+        var options = new ReaderOptions { LeaveStreamOpen = true, Password = archiveOptions.Password };
+
+        if (archiveOptions.EntryNameEncoding is { } encoding)
+        {
+            // Default, not Forced: entries that declare UTF-8 must keep being decoded as UTF-8.
+            options.ArchiveEncoding.Default = encoding;
+        }
 
         // Read before opening: the comment is located at the end of the file and reading it moves
         // the stream position.

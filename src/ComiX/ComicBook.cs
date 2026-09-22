@@ -309,7 +309,11 @@ public sealed class ComicBook : IDisposable, IAsyncDisposable
         var header = await HeaderReader.ReadAsync(stream, cancellationToken).ConfigureAwait(false);
         var format = ContainerSignature.Identify(header);
 
-        var archive = ComicArchiveFactory.Open(stream, format, ownsStream, options.Password);
+        var archive = ComicArchiveFactory.Open(
+            stream,
+            format,
+            ownsStream,
+            new ComicArchiveOptions(options.Password, options.EntryNameEncoding));
         try
         {
             if (archive.Entries.Count > options.MaxEntryCount)

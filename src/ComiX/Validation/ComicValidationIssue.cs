@@ -74,6 +74,12 @@ public enum ComicValidationCode
     /// information may be misattributed.
     /// </summary>
     PageMetadataMismatch = 17,
+
+    /// <summary>
+    /// An entry name contains replacement or control characters, indicating that it was written in an
+    /// encoding the archive does not declare. See <see cref="ComicOpenOptions.EntryNameEncoding"/>.
+    /// </summary>
+    EntryNameEncodingSuspect = 18,
 }
 
 /// <summary>

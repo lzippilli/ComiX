@@ -124,7 +124,11 @@ public static class ComicValidator
         IComicArchive archive;
         try
         {
-            archive = ComicArchiveFactory.Open(stream, format, ownsStream: false, options.Password);
+            archive = ComicArchiveFactory.Open(
+                stream,
+                format,
+                ownsStream: false,
+                new ComicArchiveOptions(options.Password, options.EntryNameEncoding));
         }
         catch (ComicArchiveException ex)
         {
@@ -157,6 +161,24 @@ public static class ComicValidator
         }
     }
 
+    /// <summary>
+    /// Whether a decoded entry name shows the signature of an encoding mismatch: a Unicode
+    /// replacement character, or a control character, neither of which a writer produces
+    /// intentionally.
+    /// </summary>
+    private static bool HasSuspectEncoding(string entryName)
+    {
+        foreach (var character in entryName)
+        {
+            if (character == '�' || char.IsControl(character))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static void ValidateEntries(
         IComicArchive archive,
         List<ComicArchiveEntry> pages,
@@ -181,6 +203,17 @@ public static class ComicValidator
 
         foreach (var entry in archive.Entries)
         {
+            if (HasSuspectEncoding(entry.Key))
+            {
+                issues.Add(new ComicValidationIssue(
+                    ComicValidationSeverity.Warning,
+                    ComicValidationCode.EntryNameEncodingSuspect,
+                    "The entry name contains replacement or control characters, indicating that it was "
+                    + "written in an encoding the archive does not declare. Set "
+                    + $"{nameof(ComicOpenOptions.EntryNameEncoding)} to read it correctly.",
+                    entry.Key));
+            }
+
             if (PathSafety.IsTraversal(entry.Key))
             {
                 issues.Add(new ComicValidationIssue(

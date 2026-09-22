@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace ComiX;
 
 /// <summary>
@@ -23,6 +25,19 @@ public sealed record ComicOpenOptions
 
     /// <summary>The password for archives whose entries are encrypted.</summary>
     public string? Password { get; init; }
+
+    /// <summary>
+    /// The encoding assumed for entry names that the archive does not declare as UTF-8. Defaults to
+    /// <see langword="null"/>, which decodes them as UTF-8.
+    /// </summary>
+    /// <remarks>
+    /// Entry names are ASCII in most archives, and ASCII decodes identically under every relevant
+    /// encoding. Set this only for archives whose non-ASCII names were written in a legacy code page,
+    /// which <see cref="ComicValidator"/> reports as
+    /// <see cref="ComicValidationCode.EntryNameEncodingSuspect"/>. Legacy code pages require the
+    /// consumer to register <c>CodePagesEncodingProvider</c>.
+    /// </remarks>
+    public Encoding? EntryNameEncoding { get; init; }
 
     /// <summary>
     /// The maximum content read from a single entry, 256 MiB by default. Exceeding it raises a

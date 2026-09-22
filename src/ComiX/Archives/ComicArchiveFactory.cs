@@ -20,7 +20,7 @@ internal static class ComicArchiveFactory
         Stream stream,
         ComicContainerFormat format,
         bool ownsStream,
-        string? password)
+        ComicArchiveOptions options)
     {
         if (!IsSupported(format))
         {
@@ -29,6 +29,6 @@ internal static class ComicArchiveFactory
                 format);
         }
 
-        return SharpCompressComicArchive.Open(stream, format, ownsStream, password);
+        return SharpCompressComicArchive.Open(stream, format, ownsStream, options);
     }
 }

@@ -327,6 +327,28 @@ readers, should supply `ComicCache.InMemory` through `ComicOpenOptions.Cache`.
 An archive that forms part of a multi-volume set can be opened and enumerated, but content stored in
 the remaining volumes is unavailable. `ComicValidator` reports this condition as an error.
 
+### Entry names
+
+Entry names use UTF-8 when the archive declares the UTF-8 flag. For entries without that flag, the
+configured entry-name encoding is used. Names consisting only of ASCII characters, as is the case for
+most archives, decode identically under all relevant encodings and require no configuration.
+
+An archive whose non-ASCII names were written using a legacy code page without declaring the encoding
+may decode those names with replacement characters. This can affect both the reported names and the
+resulting page order. `ComicValidator` reports such entries as `EntryNameEncodingSuspect`, and
+`ComicOpenOptions.EntryNameEncoding` allows the consumer to specify the correct encoding:
+
+```csharp
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+var options = new ComicOpenOptions { EntryNameEncoding = Encoding.GetEncoding(1252) };
+await using var comic = await ComicBook.OpenAsync("example.cbz", options);
+```
+
+Registering the code pages provider is the consuming application's responsibility; ComiX does not
+register it or take a dependency on it. The setting applies only to entry names for which the archive
+does not declare UTF-8.
+
 ## Limitations
 
 - Metadata cannot be written into an existing archive.

@@ -9,6 +9,16 @@ cannot be published without a section for its version.
 
 ## [Unreleased]
 
+### Added
+
+- `ComicOpenOptions.EntryNameEncoding` and `ComicValidationOptions.EntryNameEncoding`, allowing 
+  consumers to specify the encoding used for entry names when an archive does not declare UTF-8. 
+  This provides a way to correctly decode names written using legacy code pages that would otherwise 
+  produce replacement characters.
+- `ComicValidationCode.EntryNameEncodingSuspect`, reported when a decoded entry name contains
+  replacement or control characters, which is the observable signature of an encoding mismatch.
+- A CI workflow building and testing on Linux, Windows and macOS.
+
 ## [1.0.0-preview.2] - 2026-09-16
 
 ### Changed

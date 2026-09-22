@@ -114,7 +114,11 @@ public static class ComicDetector
 
         try
         {
-            using var archive = ComicArchiveFactory.Open(stream, format, ownsStream: false, password: null);
+            using var archive = ComicArchiveFactory.Open(
+                stream,
+                format,
+                ownsStream: false,
+                ComicArchiveOptions.Default);
             cancellationToken.ThrowIfCancellationRequested();
 
             // The metadata source is located but not parsed; validation reports whether it is readable.

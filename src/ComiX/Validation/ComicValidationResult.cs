@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace ComiX;
 
 /// <summary>
@@ -47,6 +49,12 @@ public sealed record ComicValidationOptions
 
     /// <summary>The password for archives with encrypted entries.</summary>
     public string? Password { get; init; }
+
+    /// <summary>
+    /// The encoding assumed for entry names that the archive does not declare as UTF-8. See
+    /// <see cref="ComicOpenOptions.EntryNameEncoding"/>.
+    /// </summary>
+    public Encoding? EntryNameEncoding { get; init; }
 
     /// <summary>The maximum content read from a single entry during a deep scan, 256 MiB by default.</summary>
     public long MaxEntrySizeInBytes { get; init; } = 256L * 1024 * 1024;
