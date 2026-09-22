@@ -58,6 +58,7 @@ desktop.ini
 docs/
 samples/
 benchmarks/
+tools/
 
 # Local-only files. ComiX.Local.slnx additionally references the internal projects above; the
 # published solution, ComiX.slnx, contains only the library and its tests.
