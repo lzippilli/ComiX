@@ -76,7 +76,8 @@ jobs:
             echo "No published version yet; package validation runs without a baseline."
           fi
 
-      - run: dotnet pack src/ComiX/ComiX.csproj --no-build --configuration Release --output artifacts -p:ContinuousIntegrationBuild=true $BASELINE
+      # Not --no-build: the baseline package for validation is downloaded during restore.
+      - run: dotnet pack src/ComiX/ComiX.csproj --configuration Release --output artifacts -p:ContinuousIntegrationBuild=true $BASELINE
 
       # Requested immediately before the push: the temporary key is valid for one hour.
       - name: Obtain a temporary NuGet API key

@@ -46,6 +46,8 @@ jobs:
             echo "No published version yet; package validation runs without a baseline."
           fi
 
+      # Not --no-build: the baseline package is downloaded during restore, which --no-build skips,
+      # leaving the validation silently doing nothing.
       - name: Validate package compatibility
         if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack src/ComiX/ComiX.csproj --no-build --configuration Release $BASELINE
+        run: dotnet pack src/ComiX/ComiX.csproj --configuration Release $BASELINE
