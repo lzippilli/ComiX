@@ -21,6 +21,8 @@
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Compares the packed assembly against the baseline the workflows resolve from nuget.org. -->
+    <EnablePackageValidation>true</EnablePackageValidation>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <!--
@@ -33,6 +35,16 @@
 
   <ItemGroup>
     <PackageReference Include="SharpCompress" />
+  </ItemGroup>
+
+  <ItemGroup Label="API surveillance">
+    <!--
+      The declared public API is recorded in PublicAPI.Shipped.txt. Any addition, removal or
+      signature change fails the build until the file is updated, so the change is visible as a diff.
+    -->
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="all" />
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,427 @@
+#nullable enable
+ComiX.ComiXException
+ComiX.ComiXException.ComiXException(string! message) -> void
+ComiX.ComiXException.ComiXException(string! message, System.Exception! innerException) -> void
+ComiX.ComicArchiveException
+ComiX.ComicArchiveException.ComicArchiveException(string! message) -> void
+ComiX.ComicArchiveException.ComicArchiveException(string! message, System.Exception! innerException) -> void
+ComiX.ComicArchiveException.ComicArchiveException(string! message, string! entryName) -> void
+ComiX.ComicArchiveException.EntryName.get -> string?
+ComiX.ComicBook
+ComiX.ComicBook.Capabilities.get -> ComiX.ComicCapabilities
+ComiX.ComicBook.Dispose() -> void
+ComiX.ComicBook.DisposeAsync() -> System.Threading.Tasks.ValueTask
+ComiX.ComicBook.ExportAsync(string! destinationPath, ComiX.ComicExportFormat format = ComiX.ComicExportFormat.Cbz, ComiX.ComicExportOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ComiX.ComicBook.ExtractAllAsync(string! destinationDirectory, ComiX.ComicExtractionOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ComiX.ComicBook.FilePath.get -> string?
+ComiX.ComicBook.Format.get -> ComiX.ComicContainerFormat
+ComiX.ComicBook.Metadata.get -> ComiX.ComicMetadata!
+ComiX.ComicBook.Pages.get -> System.Collections.Generic.IReadOnlyList<ComiX.ComicPage!>!
+ComiX.ComicBook.Resources.get -> System.Collections.Generic.IReadOnlyList<ComiX.ComicResource!>!
+ComiX.ComicCache
+ComiX.ComicCapabilities
+ComiX.ComicCapabilities.Export = 8 -> ComiX.ComicCapabilities
+ComiX.ComicCapabilities.None = 0 -> ComiX.ComicCapabilities
+ComiX.ComicCapabilities.RandomAccess = 2 -> ComiX.ComicCapabilities
+ComiX.ComicCapabilities.ReadContent = 1 -> ComiX.ComicCapabilities
+ComiX.ComicCapabilities.ReadMetadata = 4 -> ComiX.ComicCapabilities
+ComiX.ComicContainerFormat
+ComiX.ComicContainerFormat.Cb7 = 3 -> ComiX.ComicContainerFormat
+ComiX.ComicContainerFormat.Cbr = 2 -> ComiX.ComicContainerFormat
+ComiX.ComicContainerFormat.Cbt = 4 -> ComiX.ComicContainerFormat
+ComiX.ComicContainerFormat.Cbz = 1 -> ComiX.ComicContainerFormat
+ComiX.ComicContainerFormat.Unknown = 0 -> ComiX.ComicContainerFormat
+ComiX.ComicCredit
+ComiX.ComicCredit.<Clone>$() -> ComiX.ComicCredit!
+ComiX.ComicCredit.ComicCredit(string! Name, ComiX.ComicCreditRole Role) -> void
+ComiX.ComicCredit.Deconstruct(out string! Name, out ComiX.ComicCreditRole Role) -> void
+ComiX.ComicCredit.Equals(ComiX.ComicCredit? other) -> bool
+ComiX.ComicCredit.Name.get -> string!
+ComiX.ComicCredit.Name.init -> void
+ComiX.ComicCredit.Role.get -> ComiX.ComicCreditRole
+ComiX.ComicCredit.Role.init -> void
+ComiX.ComicCreditRole
+ComiX.ComicCreditRole.ComicCreditRole() -> void
+ComiX.ComicCreditRole.Equals(ComiX.ComicCreditRole other) -> bool
+ComiX.ComicCreditRole.IsKnown.get -> bool
+ComiX.ComicCreditRole.Name.get -> string!
+ComiX.ComicDetectionDepth
+ComiX.ComicDetectionDepth.Contents = 1 -> ComiX.ComicDetectionDepth
+ComiX.ComicDetectionDepth.Header = 0 -> ComiX.ComicDetectionDepth
+ComiX.ComicDetectionOptions
+ComiX.ComicDetectionOptions.<Clone>$() -> ComiX.ComicDetectionOptions!
+ComiX.ComicDetectionOptions.ComicDetectionOptions() -> void
+ComiX.ComicDetectionOptions.Depth.get -> ComiX.ComicDetectionDepth
+ComiX.ComicDetectionOptions.Depth.init -> void
+ComiX.ComicDetectionOptions.Equals(ComiX.ComicDetectionOptions? other) -> bool
+ComiX.ComicDetectionResult
+ComiX.ComicDetectionResult.<Clone>$() -> ComiX.ComicDetectionResult!
+ComiX.ComicDetectionResult.ComicDetectionResult() -> void
+ComiX.ComicDetectionResult.Equals(ComiX.ComicDetectionResult? other) -> bool
+ComiX.ComicDetectionResult.ExtensionMatchesFormat.get -> bool
+ComiX.ComicDetectionResult.ExtensionMatchesFormat.init -> void
+ComiX.ComicDetectionResult.FileExtension.get -> string?
+ComiX.ComicDetectionResult.FileExtension.init -> void
+ComiX.ComicDetectionResult.Format.get -> ComiX.ComicContainerFormat
+ComiX.ComicDetectionResult.Format.init -> void
+ComiX.ComicDetectionResult.HasEncryptedEntries.get -> bool
+ComiX.ComicDetectionResult.HasEncryptedEntries.init -> void
+ComiX.ComicDetectionResult.HasMetadata.get -> bool
+ComiX.ComicDetectionResult.HasMetadata.init -> void
+ComiX.ComicDetectionResult.IsSupported.get -> bool
+ComiX.ComicDetectionResult.IsSupported.init -> void
+ComiX.ComicDetectionResult.MetadataStandard.get -> ComiX.ComicMetadataStandard
+ComiX.ComicDetectionResult.MetadataStandard.init -> void
+ComiX.ComicDetectionResult.PageCount.get -> int?
+ComiX.ComicDetectionResult.PageCount.init -> void
+ComiX.ComicDetectionResult.SizeInBytes.get -> long?
+ComiX.ComicDetectionResult.SizeInBytes.init -> void
+ComiX.ComicDetector
+ComiX.ComicExportFormat
+ComiX.ComicExportFormat.Cbz = 1 -> ComiX.ComicExportFormat
+ComiX.ComicExportOptions
+ComiX.ComicExportOptions.<Clone>$() -> ComiX.ComicExportOptions!
+ComiX.ComicExportOptions.ComicExportOptions() -> void
+ComiX.ComicExportOptions.Equals(ComiX.ComicExportOptions? other) -> bool
+ComiX.ComicExportOptions.IncludeResources.get -> bool
+ComiX.ComicExportOptions.IncludeResources.init -> void
+ComiX.ComicExportOptions.Overwrite.get -> bool
+ComiX.ComicExportOptions.Overwrite.init -> void
+ComiX.ComicExtractionOptions
+ComiX.ComicExtractionOptions.<Clone>$() -> ComiX.ComicExtractionOptions!
+ComiX.ComicExtractionOptions.ComicExtractionOptions() -> void
+ComiX.ComicExtractionOptions.Equals(ComiX.ComicExtractionOptions? other) -> bool
+ComiX.ComicExtractionOptions.Flatten.get -> bool
+ComiX.ComicExtractionOptions.Flatten.init -> void
+ComiX.ComicExtractionOptions.IncludeResources.get -> bool
+ComiX.ComicExtractionOptions.IncludeResources.init -> void
+ComiX.ComicExtractionOptions.Overwrite.get -> bool
+ComiX.ComicExtractionOptions.Overwrite.init -> void
+ComiX.ComicIdentifier
+ComiX.ComicIdentifier.<Clone>$() -> ComiX.ComicIdentifier!
+ComiX.ComicIdentifier.ComicIdentifier(string! Source, string! Value) -> void
+ComiX.ComicIdentifier.Deconstruct(out string! Source, out string! Value) -> void
+ComiX.ComicIdentifier.Equals(ComiX.ComicIdentifier? other) -> bool
+ComiX.ComicIdentifier.Source.get -> string!
+ComiX.ComicIdentifier.Source.init -> void
+ComiX.ComicIdentifier.Value.get -> string!
+ComiX.ComicIdentifier.Value.init -> void
+ComiX.ComicImageFormat
+ComiX.ComicImageFormat.Avif = 7 -> ComiX.ComicImageFormat
+ComiX.ComicImageFormat.Bmp = 5 -> ComiX.ComicImageFormat
+ComiX.ComicImageFormat.Gif = 3 -> ComiX.ComicImageFormat
+ComiX.ComicImageFormat.Jpeg = 1 -> ComiX.ComicImageFormat
+ComiX.ComicImageFormat.Png = 2 -> ComiX.ComicImageFormat
+ComiX.ComicImageFormat.Tiff = 6 -> ComiX.ComicImageFormat
+ComiX.ComicImageFormat.Unknown = 0 -> ComiX.ComicImageFormat
+ComiX.ComicImageFormat.WebP = 4 -> ComiX.ComicImageFormat
+ComiX.ComicMetadata
+ComiX.ComicMetadata.<Clone>$() -> ComiX.ComicMetadata!
+ComiX.ComicMetadata.AgeRating.get -> string?
+ComiX.ComicMetadata.AgeRating.init -> void
+ComiX.ComicMetadata.AlternateNumber.get -> string?
+ComiX.ComicMetadata.AlternateNumber.init -> void
+ComiX.ComicMetadata.AlternateSeries.get -> string?
+ComiX.ComicMetadata.AlternateSeries.init -> void
+ComiX.ComicMetadata.BlackAndWhite.get -> bool?
+ComiX.ComicMetadata.BlackAndWhite.init -> void
+ComiX.ComicMetadata.Characters.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ComiX.ComicMetadata.Characters.init -> void
+ComiX.ComicMetadata.ComicMetadata() -> void
+ComiX.ComicMetadata.CommunityRating.get -> double?
+ComiX.ComicMetadata.CommunityRating.init -> void
+ComiX.ComicMetadata.Count.get -> int?
+ComiX.ComicMetadata.Count.init -> void
+ComiX.ComicMetadata.Country.get -> string?
+ComiX.ComicMetadata.Country.init -> void
+ComiX.ComicMetadata.Credits.get -> System.Collections.Generic.IReadOnlyList<ComiX.ComicCredit!>!
+ComiX.ComicMetadata.Credits.init -> void
+ComiX.ComicMetadata.Day.get -> int?
+ComiX.ComicMetadata.Day.init -> void
+ComiX.ComicMetadata.DeclaredPageCount.get -> int?
+ComiX.ComicMetadata.DeclaredPageCount.init -> void
+ComiX.ComicMetadata.Equals(ComiX.ComicMetadata? other) -> bool
+ComiX.ComicMetadata.Extensions.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string!>!
+ComiX.ComicMetadata.Extensions.init -> void
+ComiX.ComicMetadata.Format.get -> string?
+ComiX.ComicMetadata.Format.init -> void
+ComiX.ComicMetadata.Genres.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ComiX.ComicMetadata.Genres.init -> void
+ComiX.ComicMetadata.Identifiers.get -> System.Collections.Generic.IReadOnlyList<ComiX.ComicIdentifier!>!
+ComiX.ComicMetadata.Identifiers.init -> void
+ComiX.ComicMetadata.Imprint.get -> string?
+ComiX.ComicMetadata.Imprint.init -> void
+ComiX.ComicMetadata.Language.get -> string?
+ComiX.ComicMetadata.Language.init -> void
+ComiX.ComicMetadata.Locations.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ComiX.ComicMetadata.Locations.init -> void
+ComiX.ComicMetadata.Manga.get -> ComiX.MangaReadingDirection
+ComiX.ComicMetadata.Manga.init -> void
+ComiX.ComicMetadata.Month.get -> int?
+ComiX.ComicMetadata.Month.init -> void
+ComiX.ComicMetadata.Notes.get -> string?
+ComiX.ComicMetadata.Notes.init -> void
+ComiX.ComicMetadata.Number.get -> string?
+ComiX.ComicMetadata.Number.init -> void
+ComiX.ComicMetadata.PrimarySource.get -> ComiX.ComicMetadataSource?
+ComiX.ComicMetadata.PublicationDate.get -> System.DateOnly?
+ComiX.ComicMetadata.Publisher.get -> string?
+ComiX.ComicMetadata.Publisher.init -> void
+ComiX.ComicMetadata.Series.get -> string?
+ComiX.ComicMetadata.Series.init -> void
+ComiX.ComicMetadata.SeriesSort.get -> string?
+ComiX.ComicMetadata.SeriesSort.init -> void
+ComiX.ComicMetadata.Sources.get -> System.Collections.Generic.IReadOnlyList<ComiX.ComicMetadataSource!>!
+ComiX.ComicMetadata.Sources.init -> void
+ComiX.ComicMetadata.Standard.get -> ComiX.ComicMetadataStandard
+ComiX.ComicMetadata.Summary.get -> string?
+ComiX.ComicMetadata.Summary.init -> void
+ComiX.ComicMetadata.Tags.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ComiX.ComicMetadata.Tags.init -> void
+ComiX.ComicMetadata.Teams.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ComiX.ComicMetadata.Teams.init -> void
+ComiX.ComicMetadata.Title.get -> string?
+ComiX.ComicMetadata.Title.init -> void
+ComiX.ComicMetadata.Volume.get -> string?
+ComiX.ComicMetadata.Volume.init -> void
+ComiX.ComicMetadata.WebLinks.get -> System.Collections.Generic.IReadOnlyList<System.Uri!>!
+ComiX.ComicMetadata.WebLinks.init -> void
+ComiX.ComicMetadata.Year.get -> int?
+ComiX.ComicMetadata.Year.init -> void
+ComiX.ComicMetadataException
+ComiX.ComicMetadataException.ComicMetadataException(string! message) -> void
+ComiX.ComicMetadataException.ComicMetadataException(string! message, System.Exception! innerException) -> void
+ComiX.ComicMetadataSource
+ComiX.ComicMetadataSource.<Clone>$() -> ComiX.ComicMetadataSource!
+ComiX.ComicMetadataSource.ComicMetadataSource(ComiX.ComicMetadataStandard Standard, string! Location, bool IsPrimary) -> void
+ComiX.ComicMetadataSource.Deconstruct(out ComiX.ComicMetadataStandard Standard, out string! Location, out bool IsPrimary) -> void
+ComiX.ComicMetadataSource.Equals(ComiX.ComicMetadataSource? other) -> bool
+ComiX.ComicMetadataSource.IsPrimary.get -> bool
+ComiX.ComicMetadataSource.IsPrimary.init -> void
+ComiX.ComicMetadataSource.Location.get -> string!
+ComiX.ComicMetadataSource.Location.init -> void
+ComiX.ComicMetadataSource.Standard.get -> ComiX.ComicMetadataStandard
+ComiX.ComicMetadataSource.Standard.init -> void
+ComiX.ComicMetadataStandard
+ComiX.ComicMetadataStandard.CoMet = 2 -> ComiX.ComicMetadataStandard
+ComiX.ComicMetadataStandard.ComicBookInfo = 3 -> ComiX.ComicMetadataStandard
+ComiX.ComicMetadataStandard.ComicInfo = 1 -> ComiX.ComicMetadataStandard
+ComiX.ComicMetadataStandard.MetronInfo = 4 -> ComiX.ComicMetadataStandard
+ComiX.ComicMetadataStandard.None = 0 -> ComiX.ComicMetadataStandard
+ComiX.ComicOpenOptions
+ComiX.ComicOpenOptions.<Clone>$() -> ComiX.ComicOpenOptions!
+ComiX.ComicOpenOptions.Cache.get -> ComiX.ComicCache!
+ComiX.ComicOpenOptions.Cache.init -> void
+ComiX.ComicOpenOptions.ComicOpenOptions() -> void
+ComiX.ComicOpenOptions.EntryNameEncoding.get -> System.Text.Encoding?
+ComiX.ComicOpenOptions.EntryNameEncoding.init -> void
+ComiX.ComicOpenOptions.Equals(ComiX.ComicOpenOptions? other) -> bool
+ComiX.ComicOpenOptions.MaxEntryCount.get -> int
+ComiX.ComicOpenOptions.MaxEntryCount.init -> void
+ComiX.ComicOpenOptions.MaxEntrySizeInBytes.get -> long
+ComiX.ComicOpenOptions.MaxEntrySizeInBytes.init -> void
+ComiX.ComicOpenOptions.Password.get -> string?
+ComiX.ComicOpenOptions.Password.init -> void
+ComiX.ComicOpenOptions.ReadMetadata.get -> bool
+ComiX.ComicOpenOptions.ReadMetadata.init -> void
+ComiX.ComicPage
+ComiX.ComicPage.Bookmark.get -> string?
+ComiX.ComicPage.DeclaredHeight.get -> int?
+ComiX.ComicPage.DeclaredSpread.get -> ComiX.ComicPageSpread
+ComiX.ComicPage.DeclaredWidth.get -> int?
+ComiX.ComicPage.ExtractAsync(System.IO.Stream! destination, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ComiX.ComicPage.ExtractAsync(string! destinationPath, bool overwrite = false, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ComiX.ComicPage.FileName.get -> string!
+ComiX.ComicPage.ImageFormat.get -> ComiX.ComicImageFormat
+ComiX.ComicPage.Index.get -> int
+ComiX.ComicPage.MimeType.get -> string?
+ComiX.ComicPage.Name.get -> string!
+ComiX.ComicPage.OpenAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.IO.Stream!>!
+ComiX.ComicPage.SizeInBytes.get -> long
+ComiX.ComicPage.Type.get -> ComiX.ComicPageType
+ComiX.ComicPageSpread
+ComiX.ComicPageSpread.Double = 2 -> ComiX.ComicPageSpread
+ComiX.ComicPageSpread.Single = 1 -> ComiX.ComicPageSpread
+ComiX.ComicPageSpread.Unknown = 0 -> ComiX.ComicPageSpread
+ComiX.ComicPageType
+ComiX.ComicPageType.Advertisement = 5 -> ComiX.ComicPageType
+ComiX.ComicPageType.BackCover = 9 -> ComiX.ComicPageType
+ComiX.ComicPageType.Deleted = 11 -> ComiX.ComicPageType
+ComiX.ComicPageType.Editorial = 6 -> ComiX.ComicPageType
+ComiX.ComicPageType.FrontCover = 1 -> ComiX.ComicPageType
+ComiX.ComicPageType.InnerCover = 2 -> ComiX.ComicPageType
+ComiX.ComicPageType.Letters = 7 -> ComiX.ComicPageType
+ComiX.ComicPageType.Other = 10 -> ComiX.ComicPageType
+ComiX.ComicPageType.Preview = 8 -> ComiX.ComicPageType
+ComiX.ComicPageType.Roundup = 3 -> ComiX.ComicPageType
+ComiX.ComicPageType.Story = 4 -> ComiX.ComicPageType
+ComiX.ComicPageType.Unknown = 0 -> ComiX.ComicPageType
+ComiX.ComicResource
+ComiX.ComicResource.ExtractAsync(System.IO.Stream! destination, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ComiX.ComicResource.ExtractAsync(string! destinationPath, bool overwrite = false, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ComiX.ComicResource.FileName.get -> string!
+ComiX.ComicResource.Name.get -> string!
+ComiX.ComicResource.OpenAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.IO.Stream!>!
+ComiX.ComicResource.SizeInBytes.get -> long
+ComiX.ComicValidationCode
+ComiX.ComicValidationCode.ContainerNotRecognised = 1 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.ContainerNotSupported = 2 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.ContainerUnreadable = 3 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.DuplicateEntryName = 12 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.EmptyEntry = 15 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.EncryptedContent = 6 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.EntryNameEncodingSuspect = 18 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.EntryUnreadable = 5 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.ExtensionMismatch = 8 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.ImageContentMismatch = 14 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.IncompleteArchive = 16 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.MetadataPageCountMismatch = 11 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.MetadataUnreadable = 9 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.NoPages = 4 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.PageMetadataMismatch = 17 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.PathTraversalEntry = 7 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.UnknownMetadataField = 10 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.UnsupportedEntryFormat = 13 -> ComiX.ComicValidationCode
+ComiX.ComicValidationIssue
+ComiX.ComicValidationIssue.<Clone>$() -> ComiX.ComicValidationIssue!
+ComiX.ComicValidationIssue.Code.get -> ComiX.ComicValidationCode
+ComiX.ComicValidationIssue.Code.init -> void
+ComiX.ComicValidationIssue.ComicValidationIssue(ComiX.ComicValidationSeverity Severity, ComiX.ComicValidationCode Code, string! Message, string? EntryName = null) -> void
+ComiX.ComicValidationIssue.Deconstruct(out ComiX.ComicValidationSeverity Severity, out ComiX.ComicValidationCode Code, out string! Message, out string? EntryName) -> void
+ComiX.ComicValidationIssue.EntryName.get -> string?
+ComiX.ComicValidationIssue.EntryName.init -> void
+ComiX.ComicValidationIssue.Equals(ComiX.ComicValidationIssue? other) -> bool
+ComiX.ComicValidationIssue.Message.get -> string!
+ComiX.ComicValidationIssue.Message.init -> void
+ComiX.ComicValidationIssue.Severity.get -> ComiX.ComicValidationSeverity
+ComiX.ComicValidationIssue.Severity.init -> void
+ComiX.ComicValidationOptions
+ComiX.ComicValidationOptions.<Clone>$() -> ComiX.ComicValidationOptions!
+ComiX.ComicValidationOptions.ComicValidationOptions() -> void
+ComiX.ComicValidationOptions.DeepScan.get -> bool
+ComiX.ComicValidationOptions.DeepScan.init -> void
+ComiX.ComicValidationOptions.EntryNameEncoding.get -> System.Text.Encoding?
+ComiX.ComicValidationOptions.EntryNameEncoding.init -> void
+ComiX.ComicValidationOptions.Equals(ComiX.ComicValidationOptions? other) -> bool
+ComiX.ComicValidationOptions.MaxEntrySizeInBytes.get -> long
+ComiX.ComicValidationOptions.MaxEntrySizeInBytes.init -> void
+ComiX.ComicValidationOptions.Password.get -> string?
+ComiX.ComicValidationOptions.Password.init -> void
+ComiX.ComicValidationResult
+ComiX.ComicValidationResult.<Clone>$() -> ComiX.ComicValidationResult!
+ComiX.ComicValidationResult.ComicValidationResult() -> void
+ComiX.ComicValidationResult.Equals(ComiX.ComicValidationResult? other) -> bool
+ComiX.ComicValidationResult.Errors.get -> System.Collections.Generic.IEnumerable<ComiX.ComicValidationIssue!>!
+ComiX.ComicValidationResult.Format.get -> ComiX.ComicContainerFormat
+ComiX.ComicValidationResult.Format.init -> void
+ComiX.ComicValidationResult.IsValid.get -> bool
+ComiX.ComicValidationResult.Issues.get -> System.Collections.Generic.IReadOnlyList<ComiX.ComicValidationIssue!>!
+ComiX.ComicValidationResult.Issues.init -> void
+ComiX.ComicValidationResult.PageCount.get -> int?
+ComiX.ComicValidationResult.PageCount.init -> void
+ComiX.ComicValidationResult.Warnings.get -> System.Collections.Generic.IEnumerable<ComiX.ComicValidationIssue!>!
+ComiX.ComicValidationSeverity
+ComiX.ComicValidationSeverity.Error = 1 -> ComiX.ComicValidationSeverity
+ComiX.ComicValidationSeverity.Warning = 0 -> ComiX.ComicValidationSeverity
+ComiX.ComicValidator
+ComiX.MangaReadingDirection
+ComiX.MangaReadingDirection.No = 1 -> ComiX.MangaReadingDirection
+ComiX.MangaReadingDirection.Unknown = 0 -> ComiX.MangaReadingDirection
+ComiX.MangaReadingDirection.Yes = 2 -> ComiX.MangaReadingDirection
+ComiX.MangaReadingDirection.YesRightToLeft = 3 -> ComiX.MangaReadingDirection
+ComiX.UnsupportedComicFormatException
+ComiX.UnsupportedComicFormatException.Format.get -> ComiX.ComicContainerFormat
+ComiX.UnsupportedComicFormatException.UnsupportedComicFormatException(string! message, ComiX.ComicContainerFormat format) -> void
+override ComiX.ComicCredit.Equals(object? obj) -> bool
+override ComiX.ComicCredit.GetHashCode() -> int
+override ComiX.ComicCredit.ToString() -> string!
+override ComiX.ComicCreditRole.Equals(object? obj) -> bool
+override ComiX.ComicCreditRole.GetHashCode() -> int
+override ComiX.ComicCreditRole.ToString() -> string!
+override ComiX.ComicDetectionOptions.Equals(object? obj) -> bool
+override ComiX.ComicDetectionOptions.GetHashCode() -> int
+override ComiX.ComicDetectionOptions.ToString() -> string!
+override ComiX.ComicDetectionResult.Equals(object? obj) -> bool
+override ComiX.ComicDetectionResult.GetHashCode() -> int
+override ComiX.ComicDetectionResult.ToString() -> string!
+override ComiX.ComicExportOptions.Equals(object? obj) -> bool
+override ComiX.ComicExportOptions.GetHashCode() -> int
+override ComiX.ComicExportOptions.ToString() -> string!
+override ComiX.ComicExtractionOptions.Equals(object? obj) -> bool
+override ComiX.ComicExtractionOptions.GetHashCode() -> int
+override ComiX.ComicExtractionOptions.ToString() -> string!
+override ComiX.ComicIdentifier.Equals(object? obj) -> bool
+override ComiX.ComicIdentifier.GetHashCode() -> int
+override ComiX.ComicIdentifier.ToString() -> string!
+override ComiX.ComicMetadata.Equals(object? obj) -> bool
+override ComiX.ComicMetadata.GetHashCode() -> int
+override ComiX.ComicMetadata.ToString() -> string!
+override ComiX.ComicMetadataSource.Equals(object? obj) -> bool
+override ComiX.ComicMetadataSource.GetHashCode() -> int
+override ComiX.ComicMetadataSource.ToString() -> string!
+override ComiX.ComicOpenOptions.Equals(object? obj) -> bool
+override ComiX.ComicOpenOptions.GetHashCode() -> int
+override ComiX.ComicOpenOptions.ToString() -> string!
+override ComiX.ComicPage.ToString() -> string!
+override ComiX.ComicResource.ToString() -> string!
+override ComiX.ComicValidationIssue.Equals(object? obj) -> bool
+override ComiX.ComicValidationIssue.GetHashCode() -> int
+override ComiX.ComicValidationIssue.ToString() -> string!
+override ComiX.ComicValidationOptions.Equals(object? obj) -> bool
+override ComiX.ComicValidationOptions.GetHashCode() -> int
+override ComiX.ComicValidationOptions.ToString() -> string!
+override ComiX.ComicValidationResult.Equals(object? obj) -> bool
+override ComiX.ComicValidationResult.GetHashCode() -> int
+override ComiX.ComicValidationResult.ToString() -> string!
+static ComiX.ComicBook.OpenAsync(System.IO.Stream! stream, ComiX.ComicOpenOptions? options = null, bool leaveOpen = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ComiX.ComicBook!>!
+static ComiX.ComicBook.OpenAsync(string! path, ComiX.ComicOpenOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ComiX.ComicBook!>!
+static ComiX.ComicCache.InMemory(long maxSizeInBytes = 67108864) -> ComiX.ComicCache!
+static ComiX.ComicCache.None.get -> ComiX.ComicCache!
+static ComiX.ComicCredit.operator !=(ComiX.ComicCredit? left, ComiX.ComicCredit? right) -> bool
+static ComiX.ComicCredit.operator ==(ComiX.ComicCredit? left, ComiX.ComicCredit? right) -> bool
+static ComiX.ComicCreditRole.Artist.get -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.Colorist.get -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.CoverArtist.get -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.Custom(string! name) -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.Editor.get -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.Inker.get -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.Letterer.get -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.Parse(string! name) -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.Penciller.get -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.Translator.get -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.Unknown.get -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.Writer.get -> ComiX.ComicCreditRole
+static ComiX.ComicCreditRole.operator !=(ComiX.ComicCreditRole left, ComiX.ComicCreditRole right) -> bool
+static ComiX.ComicCreditRole.operator ==(ComiX.ComicCreditRole left, ComiX.ComicCreditRole right) -> bool
+static ComiX.ComicDetectionOptions.Default.get -> ComiX.ComicDetectionOptions!
+static ComiX.ComicDetectionOptions.operator !=(ComiX.ComicDetectionOptions? left, ComiX.ComicDetectionOptions? right) -> bool
+static ComiX.ComicDetectionOptions.operator ==(ComiX.ComicDetectionOptions? left, ComiX.ComicDetectionOptions? right) -> bool
+static ComiX.ComicDetectionResult.operator !=(ComiX.ComicDetectionResult? left, ComiX.ComicDetectionResult? right) -> bool
+static ComiX.ComicDetectionResult.operator ==(ComiX.ComicDetectionResult? left, ComiX.ComicDetectionResult? right) -> bool
+static ComiX.ComicDetector.DetectAsync(System.IO.Stream! stream, ComiX.ComicDetectionOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ComiX.ComicDetectionResult!>!
+static ComiX.ComicDetector.DetectAsync(string! path, ComiX.ComicDetectionOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ComiX.ComicDetectionResult!>!
+static ComiX.ComicExportOptions.Default.get -> ComiX.ComicExportOptions!
+static ComiX.ComicExportOptions.operator !=(ComiX.ComicExportOptions? left, ComiX.ComicExportOptions? right) -> bool
+static ComiX.ComicExportOptions.operator ==(ComiX.ComicExportOptions? left, ComiX.ComicExportOptions? right) -> bool
+static ComiX.ComicExtractionOptions.Default.get -> ComiX.ComicExtractionOptions!
+static ComiX.ComicExtractionOptions.operator !=(ComiX.ComicExtractionOptions? left, ComiX.ComicExtractionOptions? right) -> bool
+static ComiX.ComicExtractionOptions.operator ==(ComiX.ComicExtractionOptions? left, ComiX.ComicExtractionOptions? right) -> bool
+static ComiX.ComicIdentifier.operator !=(ComiX.ComicIdentifier? left, ComiX.ComicIdentifier? right) -> bool
+static ComiX.ComicIdentifier.operator ==(ComiX.ComicIdentifier? left, ComiX.ComicIdentifier? right) -> bool
+static ComiX.ComicMetadata.Empty.get -> ComiX.ComicMetadata!
+static ComiX.ComicMetadata.operator !=(ComiX.ComicMetadata? left, ComiX.ComicMetadata? right) -> bool
+static ComiX.ComicMetadata.operator ==(ComiX.ComicMetadata? left, ComiX.ComicMetadata? right) -> bool
+static ComiX.ComicMetadataSource.operator !=(ComiX.ComicMetadataSource? left, ComiX.ComicMetadataSource? right) -> bool
+static ComiX.ComicMetadataSource.operator ==(ComiX.ComicMetadataSource? left, ComiX.ComicMetadataSource? right) -> bool
+static ComiX.ComicOpenOptions.Default.get -> ComiX.ComicOpenOptions!
+static ComiX.ComicOpenOptions.operator !=(ComiX.ComicOpenOptions? left, ComiX.ComicOpenOptions? right) -> bool
+static ComiX.ComicOpenOptions.operator ==(ComiX.ComicOpenOptions? left, ComiX.ComicOpenOptions? right) -> bool
+static ComiX.ComicValidationIssue.operator !=(ComiX.ComicValidationIssue? left, ComiX.ComicValidationIssue? right) -> bool
+static ComiX.ComicValidationIssue.operator ==(ComiX.ComicValidationIssue? left, ComiX.ComicValidationIssue? right) -> bool
+static ComiX.ComicValidationOptions.Default.get -> ComiX.ComicValidationOptions!
+static ComiX.ComicValidationOptions.operator !=(ComiX.ComicValidationOptions? left, ComiX.ComicValidationOptions? right) -> bool
+static ComiX.ComicValidationOptions.operator ==(ComiX.ComicValidationOptions? left, ComiX.ComicValidationOptions? right) -> bool
+static ComiX.ComicValidationResult.operator !=(ComiX.ComicValidationResult? left, ComiX.ComicValidationResult? right) -> bool
+static ComiX.ComicValidationResult.operator ==(ComiX.ComicValidationResult? left, ComiX.ComicValidationResult? right) -> bool
+static ComiX.ComicValidator.ValidateAsync(System.IO.Stream! stream, ComiX.ComicValidationOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ComiX.ComicValidationResult!>!
+static ComiX.ComicValidator.ValidateAsync(string! path, ComiX.ComicValidationOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ComiX.ComicValidationResult!>!

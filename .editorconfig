@@ -27,3 +27,9 @@ csharp_style_var_elsewhere = false:silent
 # Containers are addressed through IComicArchive on purpose: the archive implementation is chosen at
 # run time from the detected format, so the concrete type is not knowable at the call site.
 dotnet_diagnostic.CA1859.severity = suggestion
+
+# OpenAsync, DetectAsync, ValidateAsync and ExtractAsync each expose two overloads with optional
+# parameters, which RS0026 flags as a source of future ambiguity. The overloads in each pair differ
+# in their first parameter — a path or a stream, a file or a destination stream — so no call can bind
+# ambiguously, and the shapes are already published.
+dotnet_diagnostic.RS0026.severity = none

@@ -31,3 +31,21 @@ jobs:
       - run: dotnet build ComiX.slnx --no-restore --configuration Release
 
       - run: dotnet test ComiX.slnx --no-build --configuration Release
+
+      # Compares the packed assembly against the most recently published version, so a break in
+      # binary compatibility is reported on the push that introduces it rather than at release.
+      # One platform is enough; the result does not vary by operating system.
+      - name: Resolve the package validation baseline
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          latest=$(curl -sf https://api.nuget.org/v3-flatcontainer/comix/index.json | jq -r '.versions[]' | tail -n 1 || true)
+          if [ -n "$latest" ]; then
+            echo "BASELINE=-p:PackageValidationBaselineVersion=$latest" >> "$GITHUB_ENV"
+            echo "Validating API compatibility against $latest"
+          else
+            echo "No published version yet; package validation runs without a baseline."
+          fi
+
+      - name: Validate package compatibility
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet pack src/ComiX/ComiX.csproj --no-build --configuration Release $BASELINE

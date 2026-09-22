@@ -64,7 +64,19 @@ jobs:
 
       - run: dotnet test ComiX.slnx --no-build --configuration Release
 
-      - run: dotnet pack src/ComiX/ComiX.csproj --no-build --configuration Release --output artifacts -p:ContinuousIntegrationBuild=true
+      # The baseline is the most recently published version, resolved at run time so that no
+      # version has to be maintained in the project file. Packing fails on a breaking change.
+      - name: Resolve the package validation baseline
+        run: |
+          latest=$(curl -sf https://api.nuget.org/v3-flatcontainer/comix/index.json | jq -r '.versions[]' | tail -n 1 || true)
+          if [ -n "$latest" ]; then
+            echo "BASELINE=-p:PackageValidationBaselineVersion=$latest" >> "$GITHUB_ENV"
+            echo "Validating API compatibility against $latest"
+          else
+            echo "No published version yet; package validation runs without a baseline."
+          fi
+
+      - run: dotnet pack src/ComiX/ComiX.csproj --no-build --configuration Release --output artifacts -p:ContinuousIntegrationBuild=true $BASELINE
 
       # Requested immediately before the push: the temporary key is valid for one hour.
       - name: Obtain a temporary NuGet API key
