@@ -1,0 +1,33 @@
+name: build
+
+# Builds and tests on every supported platform. The library targets net8.0 and net10.0, so both
+# runtimes are installed; the test suite runs against both.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - run: dotnet restore ComiX.slnx
+
+      - run: dotnet build ComiX.slnx --no-restore --configuration Release
+
+      - run: dotnet test ComiX.slnx --no-build --configuration Release
