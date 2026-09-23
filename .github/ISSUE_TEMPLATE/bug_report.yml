@@ -1,0 +1,74 @@
+name: Bug report
+description: Report incorrect behaviour in the library.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Archives that reproduce the problem are the most useful thing to attach. When the file
+        cannot be shared, the output of `ComicValidator` usually identifies the cause.
+
+  - type: input
+    id: version
+    attributes:
+      label: ComiX version
+      placeholder: 1.0.0-preview.2
+    validations:
+      required: true
+
+  - type: dropdown
+    id: container
+    attributes:
+      label: Container format
+      options:
+        - CBZ (ZIP)
+        - CBR (RAR)
+        - CB7 (7-Zip)
+        - CBT (TAR)
+        - Not applicable
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Target framework and operating system
+      placeholder: net10.0 on Windows 11
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What the API was expected to do, and why.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: What happened instead. Include the exception type and message where one was thrown.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: The smallest code that shows the problem, and how the archive was produced.
+      render: csharp
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validator output
+      description: >
+        Optional. The findings reported by
+        `ComicValidator.ValidateAsync(path, new ComicValidationOptions { DeepScan = true })`.
+      render: text
+    validations:
+      required: false

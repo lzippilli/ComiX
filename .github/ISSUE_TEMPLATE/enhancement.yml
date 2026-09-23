@@ -1,0 +1,51 @@
+name: Enhancement
+description: Propose a feature, an API change or an improvement to existing behaviour.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ComiX provides archive access, metadata normalisation, extraction and conversion. Image
+        decoding, rendering and library management are outside its scope; proposals that require
+        them belong in an application built on the library rather than in the library.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: The situation that the current API handles poorly, or cannot handle at all.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: The behaviour or API being proposed. Sketch the public surface where one is involved.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: >
+        Other ways of solving the same problem, including doing it in the consuming application, and
+        why they are worse.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: compatibility
+    attributes:
+      label: Compatibility
+      description: >
+        Additions are compatible; removing or changing an existing member is not. See the public API
+        files under `src/ComiX` for the declared surface.
+      options:
+        - Purely additive
+        - Changes existing behaviour
+        - Changes the public API surface
+        - Unsure
+    validations:
+      required: true
