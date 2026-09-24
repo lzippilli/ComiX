@@ -47,6 +47,7 @@ public static class ComicValidator
             return await ValidateCoreAsync(
                     stream,
                     extension.Length > 0 ? extension : null,
+                    file.FullName,
                     options ?? ComicValidationOptions.Default,
                     cancellationToken)
                 .ConfigureAwait(false);
@@ -75,12 +76,13 @@ public static class ComicValidator
             throw new ArgumentException("The stream must be seekable.", nameof(stream));
         }
 
-        return ValidateCoreAsync(stream, null, options ?? ComicValidationOptions.Default, cancellationToken);
+        return ValidateCoreAsync(stream, null, null, options ?? ComicValidationOptions.Default, cancellationToken);
     }
 
     private static async Task<ComicValidationResult> ValidateCoreAsync(
         Stream stream,
         string? fileExtension,
+        string? filePath,
         ComicValidationOptions options,
         CancellationToken cancellationToken)
     {
@@ -128,7 +130,11 @@ public static class ComicValidator
                 stream,
                 format,
                 ownsStream: false,
-                new ComicArchiveOptions(options.Password, options.EntryNameEncoding));
+                new ComicArchiveOptions(
+                    options.Password,
+                    options.EntryNameEncoding,
+                    SourcePath: filePath,
+                    options.MaxEntrySizeInBytes));
         }
         catch (ComicArchiveException ex)
         {

@@ -134,7 +134,10 @@ public sealed class ComicBook : IDisposable, IAsyncDisposable
     }
 
     /// <summary>Opens a comic archive from a stream.</summary>
-    /// <param name="stream">The archive content. Must be readable and seekable.</param>
+    /// <param name="stream">
+    /// The archive content. Must be readable and seekable, and must not be read or repositioned by
+    /// the caller while the comic is open: reading a solid archive repositions the stream.
+    /// </param>
     /// <param name="options">Reading options, or <see langword="null"/> for <see cref="ComicOpenOptions.Default"/>.</param>
     /// <param name="leaveOpen">
     /// When <see langword="true"/>, the default, the stream is not disposed with this instance and
@@ -313,7 +316,11 @@ public sealed class ComicBook : IDisposable, IAsyncDisposable
             stream,
             format,
             ownsStream,
-            new ComicArchiveOptions(options.Password, options.EntryNameEncoding));
+            new ComicArchiveOptions(
+                options.Password,
+                options.EntryNameEncoding,
+                SourcePath: filePath,
+                options.MaxEntrySizeInBytes));
         try
         {
             if (archive.Entries.Count > options.MaxEntryCount)

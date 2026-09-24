@@ -13,7 +13,11 @@ public enum ComicCapabilities
     /// <summary>Page and resource content can be read.</summary>
     ReadContent = 1,
 
-    /// <summary>Entries can be read in any order without re-reading the whole container.</summary>
+    /// <summary>
+    /// Entries can be read in any order without re-reading the whole container. When absent, the
+    /// archive is solid: content is still read correctly, but reaching an entry may require
+    /// decompressing the entries stored before it.
+    /// </summary>
     RandomAccess = 1 << 1,
 
     /// <summary>Embedded metadata can be read.</summary>

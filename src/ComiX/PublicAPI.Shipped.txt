@@ -213,6 +213,8 @@ ComiX.ComicOpenOptions.<Clone>$() -> ComiX.ComicOpenOptions!
 ComiX.ComicOpenOptions.Cache.get -> ComiX.ComicCache!
 ComiX.ComicOpenOptions.Cache.init -> void
 ComiX.ComicOpenOptions.ComicOpenOptions() -> void
+ComiX.ComicOpenOptions.EntryNameEncoding.get -> System.Text.Encoding?
+ComiX.ComicOpenOptions.EntryNameEncoding.init -> void
 ComiX.ComicOpenOptions.Equals(ComiX.ComicOpenOptions? other) -> bool
 ComiX.ComicOpenOptions.MaxEntryCount.get -> int
 ComiX.ComicOpenOptions.MaxEntryCount.init -> void
@@ -268,6 +270,7 @@ ComiX.ComicValidationCode.ContainerUnreadable = 3 -> ComiX.ComicValidationCode
 ComiX.ComicValidationCode.DuplicateEntryName = 12 -> ComiX.ComicValidationCode
 ComiX.ComicValidationCode.EmptyEntry = 15 -> ComiX.ComicValidationCode
 ComiX.ComicValidationCode.EncryptedContent = 6 -> ComiX.ComicValidationCode
+ComiX.ComicValidationCode.EntryNameEncodingSuspect = 18 -> ComiX.ComicValidationCode
 ComiX.ComicValidationCode.EntryUnreadable = 5 -> ComiX.ComicValidationCode
 ComiX.ComicValidationCode.ExtensionMismatch = 8 -> ComiX.ComicValidationCode
 ComiX.ComicValidationCode.ImageContentMismatch = 14 -> ComiX.ComicValidationCode
@@ -297,6 +300,8 @@ ComiX.ComicValidationOptions.<Clone>$() -> ComiX.ComicValidationOptions!
 ComiX.ComicValidationOptions.ComicValidationOptions() -> void
 ComiX.ComicValidationOptions.DeepScan.get -> bool
 ComiX.ComicValidationOptions.DeepScan.init -> void
+ComiX.ComicValidationOptions.EntryNameEncoding.get -> System.Text.Encoding?
+ComiX.ComicValidationOptions.EntryNameEncoding.init -> void
 ComiX.ComicValidationOptions.Equals(ComiX.ComicValidationOptions? other) -> bool
 ComiX.ComicValidationOptions.MaxEntrySizeInBytes.get -> long
 ComiX.ComicValidationOptions.MaxEntrySizeInBytes.init -> void

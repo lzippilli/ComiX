@@ -1,6 +1,1 @@
 #nullable enable
-ComiX.ComicOpenOptions.EntryNameEncoding.get -> System.Text.Encoding?
-ComiX.ComicOpenOptions.EntryNameEncoding.init -> void
-ComiX.ComicValidationCode.EntryNameEncodingSuspect = 18 -> ComiX.ComicValidationCode
-ComiX.ComicValidationOptions.EntryNameEncoding.get -> System.Text.Encoding?
-ComiX.ComicValidationOptions.EntryNameEncoding.init -> void

@@ -7,7 +7,7 @@ All notable changes to ComiX are documented in this file. The format follows
 The section for a version is published as the release notes on GitHub and on nuget.org. A release
 cannot be published without a section for its version.
 
-## [Unreleased]
+## [1.0.0-preview.3] - 2026-09-24
 
 ### Added
 
@@ -18,6 +18,16 @@ cannot be published without a section for its version.
 - `ComicValidationCode.EntryNameEncodingSuspect`, reported when a decoded entry name contains
   replacement or control characters, which is the observable signature of an encoding mismatch.
 - A CI workflow building and testing on Linux, Windows and macOS.
+
+### Changed
+
+- Improved reading performance for solid archives by reusing sequential traversal between reads. 
+- Pages requested near their stored order can now share a single traversal instead of restarting 
+- decompression for each entry.
+
+### Fixed
+
+- [#12](https://github.com/lzippilli/ComiX/issues/12).
 
 ## [1.0.0-preview.2] - 2026-09-16
 
@@ -63,6 +73,7 @@ First public release.
   `ComicOpenOptions.MaxEntryCount`.
 - Target frameworks `net8.0` and `net10.0`. SharpCompress is the only runtime dependency.
 
-[Unreleased]: https://github.com/lzippilli/ComiX/compare/v1.0.0-preview.2...HEAD
+[Unreleased]: https://github.com/lzippilli/ComiX/compare/v1.0.0-preview.3...HEAD
+[1.0.0-preview.3]: https://github.com/lzippilli/ComiX/compare/v1.0.0-preview.2...v1.0.0-preview.3
 [1.0.0-preview.2]: https://github.com/lzippilli/ComiX/compare/v1.0.0-preview.1...v1.0.0-preview.2
 [1.0.0-preview.1]: https://github.com/lzippilli/ComiX/releases/tag/v1.0.0-preview.1

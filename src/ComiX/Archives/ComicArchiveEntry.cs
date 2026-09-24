@@ -15,6 +15,14 @@ internal sealed record ComicArchiveEntry(
     bool IsEncrypted,
     DateTime? LastModified)
 {
+    /// <summary>
+    /// The CRC-32 the container records for the entry's uncompressed content, or <c>0</c> when it
+    /// records none. The two cannot be distinguished: TAR reports <c>0</c> for every entry, and a
+    /// container that omits the field reports the same value as one that recorded a checksum of zero.
+    /// Consumers treat <c>0</c> as no checksum.
+    /// </summary>
+    public long Crc { get; init; }
+
     /// <summary>The entry's file name without its directory path.</summary>
     public string FileName { get; } = Internal.PathSafety.GetFileName(Key);
 
